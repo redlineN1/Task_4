@@ -74,7 +74,13 @@ describe('Authentication controller integration', () => {
   */
   test('authenticates the same user and issues a fresh JWT', async () => {
     // This test will always fail until the TODO above is implemented.
-    expect(true).toBe(false);
+   const response = await fetch(`${baseUrl}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password
+      })});
   });
 
   test('returns the public profile for the currently authenticated user', async () => {

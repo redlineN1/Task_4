@@ -66,6 +66,30 @@ describe('AllPerks page', (Directory) => {
       expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
     });
 
+    const nameFilter = screen.getByPlaceholderText('Enter perk name...');
+    fireEvent.change(nameFilter, { target: { value: seededPerk.title } });
+
+    await waitFor(() => {
+      expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
+    });
+
+    expect(screen.getByText(/showing/i)).toHaveTextContent('Showing');
+  });
+
+  test('lists public perks and responds to merchant filtering', async () => {
+    const seededPerk = global.__TEST_CONTEXT__.seededPerk;
+
+    renderWithRouter(
+      <Routes>
+        <Route path="/explore" element={<AllPerks />} />
+      </Routes>,
+      { initialEntries: ['/explore'] }
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(seededPerk.title)).toBeInTheDocument();
+    });
+
     const merchantFilter = screen.getByRole('combobox');
     fireEvent.change(merchantFilter, { target: { value: seededPerk.merchant } });
 
@@ -75,6 +99,4 @@ describe('AllPerks page', (Directory) => {
 
     expect(screen.getByText(/showing/i)).toBeInTheDocument();
   });
-
-});
-});
+});});
